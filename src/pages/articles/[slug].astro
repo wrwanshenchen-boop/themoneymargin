@@ -18,6 +18,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
   month: 'long',
   day: 'numeric',
 }).format(article.data.pubDate);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title={`${article.data.title} — The Money Margin`} description={article.data.description}>
@@ -25,9 +26,9 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
     <!-- Breadcrumb & Metadata Header -->
     <div class="mb-8 font-sans">
       <div class="flex items-center gap-2 text-xs font-semibold text-[#5C6B7A] mb-4">
-        <a href="/" class="hover:text-[#E67E22] transition-colors">Home</a>
+        <a href={`${base}/`} class="hover:text-[#E67E22] transition-colors">Home</a>
         <span>/</span>
-        <a href="/articles" class="hover:text-[#E67E22] transition-colors">Articles</a>
+        <a href={`${base}/articles`} class="hover:text-[#E67E22] transition-colors">Articles</a>
         <span>/</span>
         <span class="text-[#E67E22] font-bold">{article.data.category}</span>
       </div>
@@ -52,8 +53,14 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
     <!-- Author Bio Box at the bottom of the article -->
     <div class="mt-16 pt-8 border-t border-[#E8E2D9] bg-[#F3EFEA]/70 rounded-xl p-6 sm:p-8 font-sans">
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-        <div class="w-16 h-16 rounded-full bg-[#1A2B3C] text-[#FAF8F5] flex items-center justify-center font-bold text-xl flex-shrink-0">
-          DR
+        <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+          <img
+            src={`${base}/images/daniel-avatar.svg`}
+            alt="Daniel Reyes"
+            class="w-full h-full object-cover"
+            width="64"
+            height="64"
+          />
         </div>
         <div>
           <h4 class="text-base font-bold text-[#1A2B3C]">Written by Daniel Reyes</h4>
@@ -67,7 +74,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
 
     <!-- Next / Return Navigation -->
     <div class="mt-10 flex justify-between items-center font-sans text-sm font-bold border-t border-[#E8E2D9] pt-6">
-      <a href="/articles" class="text-[#1A2B3C] hover:text-[#E67E22] transition-colors">
+      <a href={`${base}/articles`} class="text-[#1A2B3C] hover:text-[#E67E22] transition-colors">
         &larr; Back to all articles
       </a>
       <a href="#top" class="text-[#5C6B7A] hover:text-[#1A2B3C] transition-colors">

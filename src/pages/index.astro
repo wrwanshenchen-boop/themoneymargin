@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 
 const allArticles = await getCollection('articles');
 const sortedArticles = allArticles.sort((a, b) => a.data.order - b.data.order);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout>
@@ -24,7 +25,7 @@ const sortedArticles = allArticles.sort((a, b) => a.data.order - b.data.order);
 
       <div class="flex flex-wrap gap-4 items-center font-sans text-sm">
         <a
-          href="/articles"
+          href={`${base}/articles`}
           class="inline-flex items-center px-5 py-2.5 bg-[#1A2B3C] text-white font-semibold rounded-md hover:bg-[#E67E22] transition-colors"
         >
           Explore All Articles
@@ -33,7 +34,7 @@ const sortedArticles = allArticles.sort((a, b) => a.data.order - b.data.order);
           </svg>
         </a>
         <a
-          href="/about"
+          href={`${base}/about`}
           class="inline-flex items-center px-5 py-2.5 bg-white border border-[#E8E2D9] text-[#1A2B3C] font-semibold rounded-md hover:border-[#1A2B3C] transition-colors"
         >
           Meet the Author
@@ -74,7 +75,7 @@ const sortedArticles = allArticles.sort((a, b) => a.data.order - b.data.order);
         <h2 class="text-2xl font-extrabold text-[#1A2B3C] tracking-tight">Recent Articles</h2>
         <p class="text-sm font-serif text-[#5C6B7A] mt-1">Field guides on credit cards, budgeting systems, and psychology.</p>
       </div>
-      <a href="/articles" class="font-sans text-xs font-bold uppercase tracking-wider text-[#E67E22] hover:underline">
+      <a href={`${base}/articles`} class="font-sans text-xs font-bold uppercase tracking-wider text-[#E67E22] hover:underline">
         View All 12 Guides &rarr;
       </a>
     </div>
@@ -97,7 +98,7 @@ const sortedArticles = allArticles.sort((a, b) => a.data.order - b.data.order);
                 <span>{article.data.readTime}</span>
               </div>
               <h3 class="text-xl font-bold font-sans text-[#1A2B3C] leading-snug mb-3 hover:text-[#E67E22] transition-colors">
-                <a href={`/articles/${article.data.slug || article.slug}`}>
+                <a href={`${base}/articles/${article.data.slug || article.slug}`}>
                   {article.data.title}
                 </a>
               </h3>
@@ -108,7 +109,7 @@ const sortedArticles = allArticles.sort((a, b) => a.data.order - b.data.order);
             <div class="pt-4 border-t border-[#E8E2D9]/70 flex items-center justify-between text-xs font-sans text-[#728090]">
               <span>{formattedDate}</span>
               <a
-                href={`/articles/${article.data.slug || article.slug}`}
+                href={`${base}/articles/${article.data.slug || article.slug}`}
                 class="font-semibold text-[#1A2B3C] hover:text-[#E67E22] inline-flex items-center gap-1"
               >
                 Read Article &rarr;
