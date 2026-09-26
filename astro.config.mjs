@@ -5,5 +5,6 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   site: 'https://wrwanshenchen-boop.github.io',
   base: '/themoneymargin',
+  trailingSlash: 'always',
   integrations: [tailwind()],
 });
