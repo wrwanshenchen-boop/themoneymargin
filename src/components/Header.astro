@@ -1,0 +1,45 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/articles', label: 'Articles' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<header class="border-b border-[#E8E2D9] bg-[#FAF8F5]/90 backdrop-blur sticky top-0 z-40">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
+    <div>
+      <a href="/" class="group flex flex-col">
+        <span class="font-sans font-extrabold text-2xl tracking-tight text-[#1A2B3C] group-hover:text-[#E67E22] transition-colors">
+          The Money Margin
+        </span>
+        <span class="text-xs uppercase tracking-widest font-sans font-semibold text-[#5C6B7A]">
+          Personal Finance & Credit Field Guide
+        </span>
+      </a>
+    </div>
+
+    <nav class="flex items-center space-x-6 font-sans text-sm font-semibold">
+      {navItems.map((item) => {
+        const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+        return (
+          <a
+            href={item.href}
+            class={isActive 
+              ? "text-[#E67E22] border-b-2 border-[#E67E22] pb-0.5" 
+              : "text-[#1A2B3C] hover:text-[#E67E22] transition-colors pb-0.5"}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+  </div>
+</header>

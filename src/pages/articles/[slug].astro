@@ -1,0 +1,198 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map((article) => ({
+    params: { slug: article.data.slug || article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(article.data.pubDate);
+---
+
+<BaseLayout title={`${article.data.title} — The Money Margin`} description={article.data.description}>
+  <article class="max-w-3xl mx-auto py-8 sm:py-12">
+    <!-- Breadcrumb & Metadata Header -->
+    <div class="mb-8 font-sans">
+      <div class="flex items-center gap-2 text-xs font-semibold text-[#5C6B7A] mb-4">
+        <a href="/" class="hover:text-[#E67E22] transition-colors">Home</a>
+        <span>/</span>
+        <a href="/articles" class="hover:text-[#E67E22] transition-colors">Articles</a>
+        <span>/</span>
+        <span class="text-[#E67E22] font-bold">{article.data.category}</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4 text-xs font-semibold text-[#5C6B7A] mb-4">
+        <span class="px-2.5 py-1 rounded bg-[#F3EFEA] text-[#1A2B3C] uppercase tracking-wider">
+          {article.data.category}
+        </span>
+        <span>Published on {formattedDate}</span>
+        <span>•</span>
+        <span>{article.data.readTime}</span>
+        <span>•</span>
+        <span>By Daniel Reyes</span>
+      </div>
+    </div>
+
+    <!-- Article Markdown Render Body with Magazine Typography -->
+    <div class="article-content font-serif text-[#1A2B3C] text-lg leading-[1.8] space-y-6">
+      <Content />
+    </div>
+
+    <!-- Author Bio Box at the bottom of the article -->
+    <div class="mt-16 pt-8 border-t border-[#E8E2D9] bg-[#F3EFEA]/70 rounded-xl p-6 sm:p-8 font-sans">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-16 h-16 rounded-full bg-[#1A2B3C] text-[#FAF8F5] flex items-center justify-center font-bold text-xl flex-shrink-0">
+          DR
+        </div>
+        <div>
+          <h4 class="text-base font-bold text-[#1A2B3C]">Written by Daniel Reyes</h4>
+          <p class="text-xs text-[#5C6B7A] font-semibold mb-2">Product Operations Specialist • Austin, TX</p>
+          <p class="text-sm font-serif text-[#5C6B7A] leading-relaxed">
+            I write about personal finance from the messy middle: paying down debt, rebuilding credit, and designing systems that survive 50-hour workweeks on a $72,000 corporate salary.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next / Return Navigation -->
+    <div class="mt-10 flex justify-between items-center font-sans text-sm font-bold border-t border-[#E8E2D9] pt-6">
+      <a href="/articles" class="text-[#1A2B3C] hover:text-[#E67E22] transition-colors">
+        &larr; Back to all articles
+      </a>
+      <a href="#top" class="text-[#5C6B7A] hover:text-[#1A2B3C] transition-colors">
+        Back to top &uarr;
+      </a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  /* Magazine Typography for Rendered Markdown */
+  .article-content h1 {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 2.25rem;
+    line-height: 1.25;
+    font-weight: 800;
+    color: #1A2B3C;
+    margin-top: 0;
+    margin-bottom: 1.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .article-content h2 {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #1A2B3C;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #E8E2D9;
+  }
+
+  .article-content h3 {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-weight: 700;
+    color: #1A2B3C;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .article-content p {
+    margin-bottom: 1.5rem;
+  }
+
+  .article-content strong {
+    font-weight: 700;
+    color: #1A2B3C;
+  }
+
+  .article-content em {
+    font-style: italic;
+    color: #2F3E4E;
+  }
+
+  .article-content blockquote {
+    border-left: 4px solid #E67E22;
+    padding-left: 1.25rem;
+    font-style: italic;
+    color: #4A5568;
+    margin: 1.75rem 0;
+  }
+
+  .article-content ul, .article-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.75rem;
+  }
+
+  .article-content ul {
+    list-style-type: disc;
+  }
+
+  .article-content ol {
+    list-style-type: decimal;
+  }
+
+  .article-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .article-content hr {
+    border: 0;
+    border-top: 1px solid #E8E2D9;
+    margin: 2.5rem 0;
+  }
+
+  /* Data Table Beautification */
+  .article-content table {
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 0.875rem;
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid #E8E2D9;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .article-content th {
+    background-color: #1A2B3C;
+    color: #FAF8F5;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-weight: 700;
+    border-bottom: 1px solid #E8E2D9;
+    white-space: nowrap;
+  }
+
+  .article-content td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #E8E2D9;
+    color: #2D3748;
+  }
+
+  .article-content tr:nth-child(even) {
+    background-color: #FAF8F5;
+  }
+
+  .article-content tr:hover {
+    background-color: #F3EFEA;
+  }
+</style>

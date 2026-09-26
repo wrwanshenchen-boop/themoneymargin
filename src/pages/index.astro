@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articles');
+const sortedArticles = allArticles.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout>
+  <!-- Hero Section -->
+  <section class="py-12 sm:py-16 border-b border-[#E8E2D9]">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF8F5] border border-[#E8E2D9] text-xs font-sans font-semibold text-[#E67E22] mb-6">
+        <span>Field Notes on Credit & Money</span>
+        <span>•</span>
+        <span>Austin, TX</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1A2B3C] leading-[1.15] mb-6 font-sans">
+        Practical credit management and money habits for ordinary working adults.
+      </h1>
+      <p class="text-lg sm:text-xl text-[#5C6B7A] leading-relaxed font-serif mb-8">
+        No generic advice. No luxury portfolio flexing. Just honest, first-person experiences from a 29-year-old product ops specialist who made the mistakes, climbed out of debt, and documented what actually worked.
+      </p>
+
+      <div class="flex flex-wrap gap-4 items-center font-sans text-sm">
+        <a
+          href="/articles"
+          class="inline-flex items-center px-5 py-2.5 bg-[#1A2B3C] text-white font-semibold rounded-md hover:bg-[#E67E22] transition-colors"
+        >
+          Explore All Articles
+          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+        <a
+          href="/about"
+          class="inline-flex items-center px-5 py-2.5 bg-white border border-[#E8E2D9] text-[#1A2B3C] font-semibold rounded-md hover:border-[#1A2B3C] transition-colors"
+        >
+          Meet the Author
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Editorial Philosophy Strip -->
+  <section class="py-10 border-b border-[#E8E2D9] grid grid-cols-1 md:grid-cols-3 gap-6 font-sans">
+    <div class="p-5 rounded-lg bg-white/60 border border-[#E8E2D9]">
+      <span class="text-xs font-bold text-[#E67E22] uppercase tracking-wider block mb-1">01 / Real Experience</span>
+      <h3 class="font-bold text-[#1A2B3C] text-base mb-2">Tested in Ordinary Life</h3>
+      <p class="text-xs text-[#5C6B7A] font-serif leading-relaxed">
+        Every guide comes from real card statements, landlord leases, pet vet bills, and the actual paycheck of a $72,000 corporate salary.
+      </p>
+    </div>
+    <div class="p-5 rounded-lg bg-white/60 border border-[#E8E2D9]">
+      <span class="text-xs font-bold text-[#E67E22] uppercase tracking-wider block mb-1">02 / Clear Numbers</span>
+      <h3 class="font-bold text-[#1A2B3C] text-base mb-2">Uncut Trade-Off Math</h3>
+      <p class="text-xs text-[#5C6B7A] font-serif leading-relaxed">
+        Real APR numbers, side-by-side installment cost charts, and explicit formulas showing where interest and attention leak.
+      </p>
+    </div>
+    <div class="p-5 rounded-lg bg-white/60 border border-[#E8E2D9]">
+      <span class="text-xs font-bold text-[#E67E22] uppercase tracking-wider block mb-1">03 / Actionable Tomorrow</span>
+      <h3 class="font-bold text-[#1A2B3C] text-base mb-2">Exact Scripts & Checklists</h3>
+      <p class="text-xs text-[#5C6B7A] font-serif leading-relaxed">
+        Word-for-word bank phone scripts, due-date realignment workflows, and simple rules you can execute before Monday morning.
+      </p>
+    </div>
+  </section>
+
+  <!-- Article Cards Preview Section -->
+  <section class="py-12">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-2xl font-extrabold text-[#1A2B3C] tracking-tight">Recent Articles</h2>
+        <p class="text-sm font-serif text-[#5C6B7A] mt-1">Field guides on credit cards, budgeting systems, and psychology.</p>
+      </div>
+      <a href="/articles" class="font-sans text-xs font-bold uppercase tracking-wider text-[#E67E22] hover:underline">
+        View All 12 Guides &rarr;
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {sortedArticles.map((article) => {
+        const formattedDate = new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }).format(article.data.pubDate);
+
+        return (
+          <article class="p-6 rounded-lg bg-white border border-[#E8E2D9] hover:border-[#1A2B3C] transition-all hover:shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-sans text-[#5C6B7A] mb-3">
+                <span class="font-semibold px-2 py-0.5 rounded bg-[#F3EFEA] text-[#1A2B3C]">
+                  {article.data.category}
+                </span>
+                <span>{article.data.readTime}</span>
+              </div>
+              <h3 class="text-xl font-bold font-sans text-[#1A2B3C] leading-snug mb-3 hover:text-[#E67E22] transition-colors">
+                <a href={`/articles/${article.data.slug || article.slug}`}>
+                  {article.data.title}
+                </a>
+              </h3>
+              <p class="font-serif text-sm text-[#5C6B7A] leading-relaxed mb-6">
+                {article.data.description}
+              </p>
+            </div>
+            <div class="pt-4 border-t border-[#E8E2D9]/70 flex items-center justify-between text-xs font-sans text-[#728090]">
+              <span>{formattedDate}</span>
+              <a
+                href={`/articles/${article.data.slug || article.slug}`}
+                class="font-semibold text-[#1A2B3C] hover:text-[#E67E22] inline-flex items-center gap-1"
+              >
+                Read Article &rarr;
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
