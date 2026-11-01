@@ -2,7 +2,7 @@
 
 > Personal finance & credit management field guide for working adults in their 20s and 30s. Written by Daniel Reyes from Austin, Texas.
 
-Website URL: [https://themoneymargin.com](https://themoneymargin.com)  
+Website URL: [https://moneymarginsecret.com](https://moneymarginsecret.com)  
 Repository: [https://github.com/wrwanshenchen-boop/themoneymargin](https://github.com/wrwanshenchen-boop/themoneymargin)
 
 ---

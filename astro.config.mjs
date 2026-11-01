@@ -1,10 +1,10 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
-// GitHub Pages default URL configuration
+// Custom domain configuration: moneymarginsecret.com
 export default defineConfig({
-  site: 'https://wrwanshenchen-boop.github.io',
-  base: '/themoneymargin',
+  site: 'https://moneymarginsecret.com',
+  base: '/',
   trailingSlash: 'always',
   integrations: [tailwind()],
 });
